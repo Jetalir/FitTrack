@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace FitTrack.Model
 {
-    internal class Item
+    internal class User
     {
-        
     }
 }
