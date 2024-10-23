@@ -7,16 +7,20 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <StackPanel Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" >
-            <TextBlock Text="Username" FontSize="15"/>
-            <TextBox Width="190" Height="28"/>
+        <Label Content="FitTrack" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="50" Margin="0,20"/>
+
+        <StackPanel Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Username" FontSize="15" />
+            <TextBox Text="{Binding UsernameInput}" Width="190" Height="28"/>
             <TextBlock Text="Password" FontSize="15"/>
-            <TextBox Width="190" Height="28"/>
+            <TextBox Text="{Binding PasswordInput}" Width="190" Height="28"/>  <!--Later make it a PasswordBox-->
             <TextBlock>
                  <Hyperlink NavigateUri="RegisterWindow.xaml">Forgot password? </Hyperlink>
             </TextBlock>
-            <Button Margin="0,10,0,0" Width="70" Height="30" Content="Sign in" FontSize="15"/>
-            <Button Margin="0,20,0,0" Width="70" Height="30" Content="Register" FontSize="15"/>
+            <Button Margin="0,10,0,0" Width="70" Height="30" Content="Sign in"  FontSize="15" Command="{Binding SignInCommand}"/>
+            <Button Margin="0,20,0,0" Width="70" Height="30" Content="Register" FontSize="15" Command="{Binding RegisterCommand}"/>
         </StackPanel>
+
+
     </Grid>
 </Window>
