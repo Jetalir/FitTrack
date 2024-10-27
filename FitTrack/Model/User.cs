@@ -30,6 +30,7 @@ namespace FitTrack.Model
             Country = country;
             SignedIn = signedIn;
             SecurityQuestion = securityQuestion;
+            
         }
         public override void SignIn() //Flag the user as Signed in
         {
@@ -43,6 +44,10 @@ namespace FitTrack.Model
         public void SignOut()
         {
             SignedIn = false;
+        }
+        public string GetSecurityAnswer()
+        {
+            return SecurityAnswer;
         }
     }
 }

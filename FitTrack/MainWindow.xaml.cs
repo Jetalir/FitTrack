@@ -26,5 +26,6 @@ namespace FitTrack
             MainWindowViewModel viewModel = new MainWindowViewModel();
             DataContext = viewModel;
         }
+
     }
 }

@@ -11,7 +11,7 @@ namespace FitTrack.Model
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public Person()
+    public Person()
         {
         }
         public Person(string username, string password) 

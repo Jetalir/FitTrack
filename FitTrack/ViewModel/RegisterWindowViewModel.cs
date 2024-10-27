@@ -15,9 +15,9 @@ namespace FitTrack.ViewModel
 {
     internal class RegisterWindowViewModel : ViewModelBase
     {
-        private RegisterWindow registerWindow = Application.Current.Windows.OfType<RegisterWindow>().First(); // Assigns the running Workoutwindow to the variable.
+        private RegisterWindow registerWindow = Application.Current.Windows.OfType<RegisterWindow>().First(); // Assigns the running RegisterWindow to the variable.
         //Variables
-
+        
         private string usernameInput;
         public string UsernameInput
         {
@@ -45,6 +45,30 @@ namespace FitTrack.ViewModel
         {
             get { return confirmPasswordInput; }
             set { confirmPasswordInput = value; }
+        }
+
+        private List<string> securityQuestion { get; set; }
+        public List<string> SecurityQuestion
+        {
+            get { return securityQuestion; }
+            set
+            {
+                securityQuestion = value;
+                OnPropertyChanged(nameof(securityQuestion));
+            }
+        }
+        private string selectedsecurityQuestion;
+        public string SelectedSecurityQuestion
+        {
+            get { return selectedsecurityQuestion; }
+            set
+            {
+                if (selectedsecurityQuestion != value)
+                {
+                    selectedsecurityQuestion = value;
+                    OnPropertyChanged(nameof(selectedsecurityQuestion));
+                }
+            }
         }
 
         private string securityAnswerInput;
@@ -81,38 +105,21 @@ namespace FitTrack.ViewModel
                 }
             }
         }
-        private List<string> securityQuestion { get; set; }
-        public List<string> SecurityQuestion
-        {
-            get { return securityQuestion; }
-            set
-            {
-                securityQuestion = value;
-                OnPropertyChanged(nameof(securityQuestion));
-            }
-        }
-        private string selectedsecurityQuestion;
-        public string SelectedSecurityQuestion
-        {
-            get { return selectedsecurityQuestion; }
-            set 
-            {
-                if (selectedsecurityQuestion != value)
-                {
-                    selectedsecurityQuestion = value;
-                    OnPropertyChanged(nameof(selectedsecurityQuestion));
-                }
-            }
-        }
+        
 
         public RelayCommand RegisterNewUserCommand => new RelayCommand(_ => RegisterNewUser());
+
+
         //Construktor
         public RegisterWindowViewModel()
         {
-            SecurityQuestion = new List<string> {"Namnet på ditt första husdjur", "Ditt favorit nummer"};
+            UserRepository userRepository = new UserRepository();
+            SecurityQuestion = userRepository.GetSecurityQuestions();
 
             Country = CultureInfo.GetCultures(CultureTypes.SpecificCultures).Select(culture => new RegionInfo(culture.Name).EnglishName).Distinct().OrderBy(name => name).ToList(); // Creates a list of all countries
         }
+
+        //Functions
         public void RegisterNewUser()
         {
             registerWindow.ConfirmPasswordMessage.Visibility = Visibility.Visible;

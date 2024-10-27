@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 using System.Xml.Linq;
 
 namespace FitTrack.ViewModel
@@ -46,7 +47,7 @@ namespace FitTrack.ViewModel
             set { passwordInput = value; }
         }
 
-
+        public RelayCommand OpenForgotPasswordCommand => new RelayCommand(_ => OpenForgotPasswordWindow());
         public RelayCommand SignInCommand => new RelayCommand(_ => SignIn());
         public RelayCommand RegisterCommand => new RelayCommand(_ => Register());
 
@@ -55,12 +56,12 @@ namespace FitTrack.ViewModel
         {
             UserRepository Current = new UserRepository();
 
-            if (Current.GetUserByName(UsernameInput) != null)
+            if (Current.GetUserByName(UsernameInput) != null) // Controls if the username input is valid
             {
                 User CurrentUser = new User();
                 CurrentUser = Current.GetUserByName(UsernameInput);
 
-                if (CurrentUser.Username == UsernameInput && CurrentUser.Password == PasswordInput) // Successfull login
+                if (CurrentUser.Username == UsernameInput && CurrentUser.Password == PasswordInput) // When login is Successfull
                 {
                     MessageBox.Show("You've Logged in!", "Logged in", MessageBoxButton.OK);
                     CurrentUser.SignIn();
@@ -82,10 +83,15 @@ namespace FitTrack.ViewModel
             }
         }
 
-        private void Register()
+        private void Register() // Opens Register Window
         {
             RegisterWindow registerWindow = new RegisterWindow();
             registerWindow.Show();
+        }
+        private void OpenForgotPasswordWindow() // Opens the ForgetPasswordWindow
+        {
+            ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
+            forgotPasswordWindow.Show();
         }
     }
 }

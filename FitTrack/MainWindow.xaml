@@ -15,7 +15,7 @@
             <TextBlock Text="Password" FontSize="15"/>
             <TextBox Text="{Binding PasswordInput}" Width="190" Height="28" FontSize="17"/>  <!--Later make it a PasswordBox-->
             <TextBlock>
-                 <Hyperlink NavigateUri="RegisterWindow.xaml">Forgot password? </Hyperlink>
+                 <Hyperlink Command="{Binding OpenForgotPasswordCommand}" >Forgot password? </Hyperlink>
             </TextBlock>
             <Button Margin="0,10,0,0" Width="70" Height="30" Content="Sign in"  FontSize="15" Command="{Binding SignInCommand}"/>
             <Button Margin="0,20,0,0" Width="70" Height="30" Content="Register" FontSize="15" Command="{Binding RegisterCommand}"/>

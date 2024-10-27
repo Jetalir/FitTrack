@@ -18,7 +18,13 @@ namespace FitTrack.Model
             new AdminUser("Jake", "Jake1234", "United States", "Namnet på ditt första husdjur", "Bob", false)
         };
         
-        public void AddUser(string name, string pass, string securityquestion, string securityanswer, string country) // Registeres a new user
+        static List<string> SecurityQuestion = new List<string>() 
+        {
+            "Namnet på ditt första husdjur",
+            "Ditt favorit nummer"
+        };
+
+    public void AddUser(string name, string pass, string securityquestion, string securityanswer, string country) // Registeres a new user
         {
             Users.Add(new User(name, pass, securityquestion, securityanswer, country, false));
         }
@@ -46,6 +52,9 @@ namespace FitTrack.Model
             return null;
         }
 
-        
+        public List<string> GetSecurityQuestions()
+        {
+            return SecurityQuestion;
+        }
     }
 }
