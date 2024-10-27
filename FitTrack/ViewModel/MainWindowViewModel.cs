@@ -21,6 +21,7 @@ namespace FitTrack.ViewModel
     {
         //Variables
         
+
         private string usernameInput;
 
         public string UsernameInput
@@ -46,9 +47,10 @@ namespace FitTrack.ViewModel
         }
 
 
-        public RelayCommand SignInCommand => new RelayCommand(execute => SignIn());
+        public RelayCommand SignInCommand => new RelayCommand(_ => SignIn());
+        public RelayCommand RegisterCommand => new RelayCommand(_ => Register());
 
-        
+
         private void SignIn() // Method to take the input and check if it matches an registered user
         {
             UserRepository Current = new UserRepository();
@@ -58,15 +60,15 @@ namespace FitTrack.ViewModel
                 User CurrentUser = new User();
                 CurrentUser = Current.GetUserByName(UsernameInput);
 
-                if (CurrentUser.Username == UsernameInput && CurrentUser.Password == PasswordInput)
+                if (CurrentUser.Username == UsernameInput && CurrentUser.Password == PasswordInput) // Successfull login
                 {
                     MessageBox.Show("You've Logged in!", "Logged in", MessageBoxButton.OK);
                     CurrentUser.SignIn();
 
-                    WorkoutWindow workoutsWindow = new WorkoutWindow();
+                    WorkoutWindow workoutsWindow = new WorkoutWindow(); // Shows Workout window
                     workoutsWindow.Show();
 
-                    var w = Application.Current.MainWindow;
+                    var w = Application.Current.Windows.OfType<MainWindow>().First();
                     w.Close();
                 }
                 else
@@ -78,6 +80,12 @@ namespace FitTrack.ViewModel
             {
                 MessageBox.Show("That User Doesnt exist!", "No User Found", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void Register()
+        {
+            RegisterWindow registerWindow = new RegisterWindow();
+            registerWindow.Show();
         }
     }
 }

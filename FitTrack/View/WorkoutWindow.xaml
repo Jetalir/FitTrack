@@ -13,42 +13,32 @@
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button 
-                Content="Add" 
-                Command="{Binding AddCommand}" 
-                Width="70" 
-                Height=" 30"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+            <Button Content="Add" Command="{Binding AddCommand}" Width="70" Height=" 30" Margin="5"/>
             <Button Content="Remove" Command="{Binding RemoveCommand}" Width="70" Height="30"/>
-            <TextBlock Text="FitTrack" Margin="160,0" FontSize="35" HorizontalAlignment="Center"/>
-            <ComboBox Text="Heyo" Width="30" Height="30">
-                
-            </ComboBox>
-            <TextBlock Text="{Binding Username}" />
+            <TextBlock Text="FitTrack" Margin="190,0" FontSize="35" HorizontalAlignment="Center"/>
+            <Button x:Name="Profile" Margin="30,0,0,0" Content="" Width="82"  Height="40" FontSize="20" HorizontalAlignment="Right" Background="Transparent" Command="{Binding TogglePopupCommand}"/>
 
+            <Popup x:Name="ProfilePopup" Margin="-5" PlacementTarget="{Binding ElementName=Profile}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsPopupOpen}">
+                <Border Background="White" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <StackPanel>
+                        <Button Content="User Details" Width="70" Padding="5" Command="{Binding UserDetailsCommand}"/>
+                        <Button Content="Sign Out" Width="70" Padding="5" Command="{Binding SignOutCommand}"/>
+                    </StackPanel>
+                </Border>
+            </Popup>
         </StackPanel>
 
         <Grid Grid.Row="1">
-            
-         <DataGrid
-            AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            CanUserDeleteRows="False"
-            ItemsSource="{Binding Workouts}"
-            SelectedItem="{Binding SelectedWorkout}">
-
-          <DataGrid.Columns>
-              <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="4*"/>
-              <DataGridTextColumn Header="CaloriesBurned" Binding="{Binding CaloriesBurned}" Width="4*"/>
-              <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="2*"/>
-              <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="2*"/>
-              <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="4*"/>
-          </DataGrid.Columns>
-
-         </DataGrid>
-
-            
-
+            <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding WorkoutList}" SelectedItem="{Binding SelectedWorkout}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="4*"/>
+                    <DataGridTextColumn Header="CaloriesBurned" Binding="{Binding CaloriesBurned}" Width="4*"/>
+                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="2*"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="2*"/>
+                    <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="4*"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </Window>

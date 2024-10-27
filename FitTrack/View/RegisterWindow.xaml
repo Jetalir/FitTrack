@@ -5,8 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FitTrack.View"
         mc:Ignorable="d"
-        Title="RegisterWindow" Height="450" Width="800">
+        Title="RegisterWindow" Height="450" Width="500">
     <Grid>
+        
+        
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="270"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="Register" FontSize="17"/>
+                    
+                <Border Grid.Row="1" Background="White" BorderBrush="Gray" BorderThickness="1" Padding="5">
+                    <Grid Width="400" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="45"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Username:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--Username-->
+                        <TextBox Grid.Column="1" Width="auto" Height="25" Text="{Binding UsernameInput}"/>
+                        <TextBlock Grid.Row="1" Text="Password:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--Password-->
+                        <TextBox Grid.Row="1" Grid.Column="1" Width="auto" Height="25" Text="{Binding PasswordInput}"/>
+                        <TextBlock Grid.Row="2" Text="Confirm Password:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--ConfirmPassword-->
+                        <TextBox Grid.Row="2" Grid.Column="1" Width="auto" Height="25" Text="{Binding ConfirmPasswordInput}"/>
+                        <TextBlock Grid.Row="3" Text="Security Question:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--Security Question-->
+                        <ComboBox Grid.Row="3" Grid.Column="1" Width="auto" Height="25" FontSize="17" ItemsSource="{Binding SecurityQuestion}" SelectedItem="{Binding SelectedSecurityQuestion}"/>
+                        <TextBlock Grid.Row="4" Text="Security Answer:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--Security Answer-->
+                        <TextBox Grid.Row="4" Grid.Column="1" Width="auto" Height="25" FontSize="17" Text="{Binding SecurityAnswerInput}"/>
+                        <TextBlock Grid.Row="5" Text="Country:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--Country-->
+                        <ComboBox Grid.Row="5" Grid.Column="1" Width="auto" Height="25" FontSize="15" ItemsSource="{Binding Country}" SelectedItem="{Binding SelectedCountry}"/>
+                    </Grid>
+                </Border>
+                <Button Grid.Row="2" Content="Register User" Width="100" Height="30" FontSize="15" Margin="0,2,0,0" Command="{Binding RegisterNewUserCommand}"/>
+                <TextBlock Grid.Row="3" x:Name="ConfirmPasswordMessage" Foreground="Crimson" FontSize="17" Margin="5" HorizontalAlignment="Center" Visibility="Collapsed"/>
+            </Grid>
+        </StackPanel>
         
     </Grid>
 </Window>

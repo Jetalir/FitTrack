@@ -10,10 +10,10 @@
         <Label Content="FitTrack" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="50" Margin="0,20"/>
 
         <StackPanel Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="Username" FontSize="15" />
-            <TextBox Text="{Binding UsernameInput}" Width="190" Height="28"/>
+            <TextBlock Text="Username" FontSize="15"/>
+            <TextBox Text="{Binding UsernameInput}" Width="190" Height="28" FontSize="17"/>
             <TextBlock Text="Password" FontSize="15"/>
-            <TextBox Text="{Binding PasswordInput}" Width="190" Height="28"/>  <!--Later make it a PasswordBox-->
+            <TextBox Text="{Binding PasswordInput}" Width="190" Height="28" FontSize="17"/>  <!--Later make it a PasswordBox-->
             <TextBlock>
                  <Hyperlink NavigateUri="RegisterWindow.xaml">Forgot password? </Hyperlink>
             </TextBlock>

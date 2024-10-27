@@ -9,26 +9,68 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace FitTrack.ViewModel
 {
-    internal class WorkoutWindowViewModel
+    internal class WorkoutWindowViewModel : ViewModelBase
     {
-        User ActiveUser { get; set; }
 
-        
-        public ObservableCollection<CardioWorkout> CardioWorkouts { get; set; }
-        public ObservableCollection<StrengthWorkout> StrengthWorkouts { get; set; }
+        private WorkoutWindow workoutWindow = Application.Current.Windows.OfType<WorkoutWindow>().First(); // Assigns the running Workoutwindow to the variable.
 
-        List<Workout> WorkoutList = new List<Workout>();
+        private User activeUser;
 
+        public User ActiveUser
+        {
+            get { return activeUser; }
+            set 
+            { 
+                activeUser = value;
+                OnPropertyChanged(nameof(ActiveUser));
+            }
+        }
+        private bool isPopupOpen;
+        public bool IsPopupOpen
+        {
+            get => isPopupOpen;
+            set
+            {
+                isPopupOpen = value;
+                OnPropertyChanged();
+            }
+        }
+
+       
+        public RelayCommand TogglePopupCommand => new RelayCommand(_ => TogglePopup());
+        public RelayCommand UserDetailsCommand => new RelayCommand(_ => UserDetails());
+        public RelayCommand SignOutCommand => new RelayCommand(_ => SignOut());
+        public RelayCommand AddCommand => new RelayCommand(_ => AddItem());
+        public RelayCommand RemoveCommand => new RelayCommand(_ => DeleteItem(), canExecute => selectedWorkout != null);
+
+        public ObservableCollection<Workout> WorkoutList;
+        public WorkoutWindowViewModel()
+        {
+            UserRepository userRepository = new UserRepository();
+            ActiveUser = userRepository.AssignSignedIn();
+
+            workoutWindow.Profile.Content = ActiveUser.Username;
+
+            WorkoutList = new ObservableCollection<Workout>();
+
+            WorkoutList.Add(new CardioWorkout { Type = "Cardio", CaloriesBurned = 400, Duration = new TimeSpan(0, 30, 0), Date = DateTime.Now, Notes = "Morning run" });
+            WorkoutList.Add(new StrengthWorkout { Type = "Strength", CaloriesBurned = 400, Duration = new TimeSpan(0, 10, 0), Date = DateTime.Now, Notes = "Pushups" });
+            
+        }
         private Workout selectedWorkout;
-
-        public RelayCommand AddCommand => new RelayCommand(execute => AddItem());
-        public RelayCommand RemoveCommand => new RelayCommand(execute => DeleteItem(), canExecute => selectedWorkout != null);
-
-
-
+        public Workout SelectedWorkout
+        {
+            get { return selectedWorkout; }
+            set
+            {
+                selectedWorkout = value;
+                OnPropertyChanged();
+            }
+        }
         private void AddItem()
         {
             AddWorkoutWindow addWorkoutwindow = new AddWorkoutWindow();
@@ -36,27 +78,27 @@ namespace FitTrack.ViewModel
         }
         private void DeleteItem()
         {
-            
+            WorkoutList.Remove(selectedWorkout);
         }
 
-        public WorkoutWindowViewModel()
+        private void TogglePopup() => IsPopupOpen = !IsPopupOpen;
+
+        private void UserDetails()
         {
-            CardioWorkouts = new ObservableCollection<CardioWorkout>();
-            StrengthWorkouts = new ObservableCollection<StrengthWorkout>();
-
-            WorkoutList.Add(new CardioWorkout { Type = "Cardio", CaloriesBurned = 400, Duration = new TimeSpan(0, 30, 0), Date = DateTime.Now, Notes = "Morning run" });
-            WorkoutList.Add(new StrengthWorkout { Type = "Strength", CaloriesBurned = 400, Duration = new TimeSpan(0, 10, 0), Date = DateTime.Now, Notes = "Pushups" });
+            UserDetailsWindow userDetailsWindow = new UserDetailsWindow();
+            userDetailsWindow.Show();
+            IsPopupOpen = false;
         }
-        public Workout SelectedWorkout
+        private void SignOut()
         {
-            get { return selectedWorkout; }
-            set
-            {
-                selectedWorkout = value;
-                //OnPropertyChanged();
-            }
-        }
+           ActiveUser.SignOut();
 
+           MainWindow mainWindow = new MainWindow();
+           mainWindow.Show();
+
+           workoutWindow.Close();
+
+        }
 
     }
 }

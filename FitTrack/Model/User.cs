@@ -12,9 +12,9 @@ namespace FitTrack.Model
     {
 
         string Country { get; set; }
-        string SecurityQuestion = "Your first pet name";
+        public bool SignedIn = false;
+        public string SecurityQuestion { get; set; }
         string SecurityAnswer { get; set; }
-        bool SignedIn = false;
 
         public User()
         {
@@ -24,11 +24,12 @@ namespace FitTrack.Model
         {
             
         }
-        public User(string username, string password, string securityAnswer, string country, bool signedIn) : base(username, password)
+        public User(string username, string password,string securityQuestion, string securityAnswer, string country, bool signedIn) : base(username, password)
         {
             SecurityAnswer = securityAnswer;
             Country = country;
             SignedIn = signedIn;
+            SecurityQuestion = securityQuestion;
         }
         public override void SignIn() //Flag the user as Signed in
         {
@@ -37,7 +38,11 @@ namespace FitTrack.Model
 
         public void ResetPassword(string securityAnswer)
         {
-
+            
+        }
+        public void SignOut()
+        {
+            SignedIn = false;
         }
     }
 }

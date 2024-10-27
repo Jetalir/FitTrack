@@ -12,15 +12,15 @@ namespace FitTrack.Model
     internal class UserRepository //Class to manage Users
     {
        
-        List<User> Users = new List<User>() // List of all active users
+        static List<User> Users = new List<User>() // List of all active users
         {
-            new User("Jet", "Jet1234", "Hey", "Kosovo", false),
-            new AdminUser("Jake", "Jake1234", "Heyo", "USA", false)
+            new User("Jet", "Jet1234", "Kosovo", "Ditt favorit nummer", "8", false),
+            new AdminUser("Jake", "Jake1234", "United States", "Namnet på ditt första husdjur", "Bob", false)
         };
         
-        public void AddUser(string name, string pass, string securityquestion, string country) // Registeres a new user
+        public void AddUser(string name, string pass, string securityquestion, string securityanswer, string country) // Registeres a new user
         {
-            Users.Add(new User(name, pass, securityquestion, country, false));
+            Users.Add(new User(name, pass, securityquestion, securityanswer, country, false));
         }
 
         public User? GetUserByName(string name) // Returns the user with same name
@@ -34,5 +34,18 @@ namespace FitTrack.Model
             }
             return null;
         }
+        public User? AssignSignedIn() // Returns Signed in user
+        {
+            foreach (var user in Users)
+            {
+                if (user.SignedIn)
+                {
+                    return user;
+                }
+            }
+            return null;
+        }
+
+        
     }
 }
