@@ -11,18 +11,19 @@ namespace FitTrack.Model
 {
     internal class UserRepository //Class to manage Users
     {
-       
-        static List<User> Users = new List<User>() // List of all active users
-        {
-            new User("Jet", "Jet1234", "Kosovo", "Ditt favorit nummer", "8", false),
-            new AdminUser("Jake", "Jake1234", "United States", "Namnet på ditt första husdjur", "Bob", false)
-        };
-        
         static List<string> SecurityQuestion = new List<string>() 
         {
             "Namnet på ditt första husdjur",
             "Ditt favorit nummer"
         };
+
+        static List<User> Users = new List<User>() // List of all active users
+        {
+            new User("Jet", "Jet1234",  SecurityQuestion[1], "8", "Kosovo", false), 
+            new AdminUser("Jake", "Jake1234", SecurityQuestion[0], "Bob", "United States", false)
+        };
+        
+        
 
     public void AddUser(string name, string pass, string securityquestion, string securityanswer, string country) // Registeres a new user
         {

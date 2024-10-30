@@ -87,23 +87,26 @@ namespace FitTrack.ViewModel
                 User user = new User();
                 user = userRepository.GetUserByName(UsernameInput);
 
-                if (user.SecurityQuestion == SelectedSecurityQuestion && user.GetSecurityAnswer() == SecurityAnswerInput)
+                if (SelectedSecurityQuestion == user.SecurityQuestion)
                 {
-                    MessageBox.Show($"Your password is {user.Password}");
+                    if (SecurityAnswerInput == user.GetSecurityAnswer())
+                    {
+                        SetConfirmPasswordMessage("");
+                        MessageBox.Show($"Your password is {user.Password}");
+                    }
+                    else if (string.IsNullOrEmpty(SecurityAnswerInput))
+                    {
+                    SetConfirmPasswordMessage("Please enter a SecurityAnswer");
+                    }
+                    else
+                    {
+                        SetConfirmPasswordMessage("Wrong SecurityAnswer");
+                    }
                 }
                 else if (string.IsNullOrEmpty(SelectedSecurityQuestion))
                 {
                     SetConfirmPasswordMessage("Please select a SecurityQuestion");
                 }
-                else if (string.IsNullOrEmpty(SecurityAnswerInput))
-                {
-                    SetConfirmPasswordMessage("Please enter a SecurityAnswer");
-                }
-                else
-                {
-                    SetConfirmPasswordMessage("Wrong SecurityAnswer");
-                }
-
             }
             else if (string.IsNullOrEmpty(UsernameInput))
             {
