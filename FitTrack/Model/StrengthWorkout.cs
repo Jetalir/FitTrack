@@ -8,13 +8,12 @@ namespace FitTrack.Model
 {
     internal class StrengthWorkout : Workout
     {
-        public StrengthWorkout()
-        {
-            
-        }
-        public StrengthWorkout(string Type, int CaloriesBurned, TimeSpan Duration, DateTime Date, string Notes) : base(Type, CaloriesBurned, Duration, Date, Notes)
-        {
+        int Repititions { get; set; }
+        
 
+        public StrengthWorkout(string type, int caloriesBurned, TimeSpan duration, DateTime date, string notes, Guid? guid, int repititions) : base(type, caloriesBurned, duration, date, notes, guid)
+        {
+            Repititions = repititions;
         }
         public override int CalculateCaloriesBurned()
         {

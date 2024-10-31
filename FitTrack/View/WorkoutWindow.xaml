@@ -30,11 +30,11 @@
         </StackPanel>
 
         <Grid Grid.Row="1">
-            <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding WorkoutList}" SelectedItem="{Binding SelectedWorkout}">
+            <DataGrid AutoGenerateColumns="False" CanUserAddRows="false" CanUserDeleteRows="false" ItemsSource="{Binding Workoutlist}" SelectedItem="{Binding SelectedWorkout}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="4*"/>
-                    <DataGridTextColumn Header="CaloriesBurned" Binding="{Binding CaloriesBurned}" Width="4*"/>
-                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="2*"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="1*"/>
+                    <DataGridTextColumn Header="CaloriesBurned" Binding="{Binding CaloriesBurned}" Width="1.5*"/>
+                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="1*"/>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="2*"/>
                     <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="4*"/>
                 </DataGrid.Columns>

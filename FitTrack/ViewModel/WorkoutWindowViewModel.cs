@@ -15,10 +15,34 @@ namespace FitTrack.ViewModel
 {
     internal class WorkoutWindowViewModel : ViewModelBase
     {
+        //Variables
 
         private WorkoutWindow workoutWindow = Application.Current.Windows.OfType<WorkoutWindow>().First(); // Assigns the running Workoutwindow to the variable.
 
+        private ObservableCollection<Workout> workoutlist;
+
+        public ObservableCollection<Workout> Workoutlist
+        {
+            get { return workoutlist; }
+            set 
+            { 
+                workoutlist = value;
+                OnPropertyChanged();
+            }
+        }
+
         private User activeUser;
+
+        private Workout selectedWorkout;
+        public Workout SelectedWorkout
+        {
+            get { return selectedWorkout; }
+            set
+            {
+                selectedWorkout = value;
+                OnPropertyChanged();
+            }
+        }
 
         public User ActiveUser
         {
@@ -39,49 +63,39 @@ namespace FitTrack.ViewModel
                 OnPropertyChanged();
             }
         }
+        WorkoutRepository workoutRepository = new WorkoutRepository();
 
-       
+        // Commands
         public RelayCommand TogglePopupCommand => new RelayCommand(_ => TogglePopup());
         public RelayCommand UserDetailsCommand => new RelayCommand(_ => UserDetails());
         public RelayCommand SignOutCommand => new RelayCommand(_ => SignOut());
         public RelayCommand AddCommand => new RelayCommand(_ => AddItem());
-        public RelayCommand RemoveCommand => new RelayCommand(_ => DeleteItem(), canExecute => selectedWorkout != null);
+        public RelayCommand RemoveCommand => new RelayCommand(_ => DeleteItem(), canExecute => CanRemove());
 
-        public ObservableCollection<Workout> WorkoutList;
-        public WorkoutWindowViewModel()
+        
+        public WorkoutWindowViewModel() // Contructor
         {
             UserRepository userRepository = new UserRepository();
-            ActiveUser = userRepository.AssignSignedIn();
-
+            ActiveUser = userRepository.AssignSignedIn(); // Assigns sign in state to user
             workoutWindow.Profile.Content = ActiveUser.Username;
 
-            WorkoutList = new ObservableCollection<Workout>();
-
-            WorkoutList.Add(new CardioWorkout { Type = "Cardio", CaloriesBurned = 400, Duration = new TimeSpan(0, 30, 0), Date = DateTime.Now, Notes = "Morning run" });
-            WorkoutList.Add(new StrengthWorkout { Type = "Strength", CaloriesBurned = 400, Duration = new TimeSpan(0, 10, 0), Date = DateTime.Now, Notes = "Pushups" });
+            Workoutlist = new ObservableCollection<Workout>();
+            WorkoutRepository workoutRepository = new WorkoutRepository();
+            Workoutlist = workoutRepository.GetWorkoutList();
             
         }
-        private Workout selectedWorkout;
-        public Workout SelectedWorkout
-        {
-            get { return selectedWorkout; }
-            set
-            {
-                selectedWorkout = value;
-                OnPropertyChanged();
-            }
-        }
+        
         private void AddItem()
         {
             AddWorkoutWindow addWorkoutwindow = new AddWorkoutWindow();
             addWorkoutwindow.Show();
         }
-        private void DeleteItem()
+        public void DeleteItem()
         {
-            WorkoutList.Remove(selectedWorkout);
+            WorkoutRepository workoutRepository = new WorkoutRepository();
+            workoutRepository.DeleteWorkout(selectedWorkout);
         }
-
-        private void TogglePopup() => IsPopupOpen = !IsPopupOpen;
+        private void TogglePopup() => IsPopupOpen = !IsPopupOpen; // Toggles popup for User options
 
         private void UserDetails()
         {
@@ -91,14 +105,17 @@ namespace FitTrack.ViewModel
         }
         private void SignOut()
         {
-           ActiveUser.SignOut();
+            IsPopupOpen = false;
+            ActiveUser.SignOut();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
 
-           MainWindow mainWindow = new MainWindow();
-           mainWindow.Show();
-
-           workoutWindow.Close();
+            workoutWindow.Close();
 
         }
-
+        public bool CanRemove() 
+        {
+            return selectedWorkout != null && (ActiveUser is AdminUser || ActiveUser.UserId == selectedWorkout.Userid);
+        }
     }
 }

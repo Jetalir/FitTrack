@@ -10,11 +10,11 @@ namespace FitTrack.Model
 {
     internal class User : Person
     {
-
         string Country { get; set; }
         public bool SignedIn = false;
         public string SecurityQuestion { get; set; }
         string SecurityAnswer { get; set; }
+        public Guid UserId;
 
         public User()
         {
@@ -30,7 +30,7 @@ namespace FitTrack.Model
             Country = country;
             SignedIn = signedIn;
             SecurityQuestion = securityQuestion;
-            
+            UserId = Guid.NewGuid();
         }
         public override void SignIn() //Flag the user as Signed in
         {

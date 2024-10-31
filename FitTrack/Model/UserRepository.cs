@@ -19,15 +19,13 @@ namespace FitTrack.Model
 
         static List<User> Users = new List<User>() // List of all active users
         {
-            new User("Jet", "Jet1234",  SecurityQuestion[1], "8", "Kosovo", false), 
-            new AdminUser("Jake", "Jake1234", SecurityQuestion[0], "Bob", "United States", false)
+            new AdminUser("Jake", "Jake1234", SecurityQuestion[0], "Bob", "United States", false),
+            new User("Jet", "Jet1234",  SecurityQuestion[1], "8", "Kosovo", false)
         };
         
-        
-
-    public void AddUser(string name, string pass, string securityquestion, string securityanswer, string country) // Registeres a new user
+        public void AddUser(string name, string pass, string securityquestion, string securityanswer, string country) // Registeres a new user
         {
-            Users.Add(new User(name, pass, securityquestion, securityanswer, country, false));
+            Users.Add(new User(name, pass, securityquestion, securityanswer, country, false ));
         }
 
         public User? GetUserByName(string name) // Returns the user with same name

@@ -9,15 +9,15 @@ namespace FitTrack.Model
     internal class CardioWorkout : Workout
     {
 
-        public CardioWorkout()
+        int distance {  get; set; }
+
+
+        
+        public CardioWorkout(string Type,  int CaloriesBurned, TimeSpan Duration, DateTime Date, string Notes, Guid? guid, int Distance) : base(Type, CaloriesBurned, Duration, Date, Notes, guid) 
         {
-            
+            distance = Distance;
         }
-        public CardioWorkout(string Type,  int CaloriesBurned, TimeSpan Duration, DateTime Date, string Notes) : base(Type, CaloriesBurned, Duration, Date, Notes) 
-        {
-            
-        }
-        public override int CalculateCaloriesBurned()
+        public override int CalculateCaloriesBurned() // ??
         {
             return 0;
         }
