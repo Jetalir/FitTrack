@@ -32,7 +32,7 @@ namespace FitTrack.ViewModel
         private List<string> securityQuestion { get; set; }
         public List<string> SecurityQuestion
         {
-            get { return securityQuestion; }
+            get { return securityQuestion; } 
             set
             {
                 securityQuestion = value;

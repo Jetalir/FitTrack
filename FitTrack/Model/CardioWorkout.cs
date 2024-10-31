@@ -19,7 +19,7 @@ namespace FitTrack.Model
         }
         public override int CalculateCaloriesBurned() // ??
         {
-            return 0;
+            return CaloriesBurned * distance;
         }
     }
 }

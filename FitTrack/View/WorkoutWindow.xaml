@@ -30,7 +30,7 @@
         </StackPanel>
 
         <Grid Grid.Row="1">
-            <DataGrid AutoGenerateColumns="False" CanUserAddRows="false" CanUserDeleteRows="false" ItemsSource="{Binding Workoutlist}" SelectedItem="{Binding SelectedWorkout}">
+            <DataGrid AutoGenerateColumns="False" CanUserAddRows="false" CanUserDeleteRows="false" ItemsSource="{Binding FilteredWorkoutList}" SelectedItem="{Binding SelectedWorkout}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="1*"/>
                     <DataGridTextColumn Header="CaloriesBurned" Binding="{Binding CaloriesBurned}" Width="1.5*"/>
@@ -40,5 +40,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
+        <Button Grid.Row="2" Height="50" Width="140" Content="Workout Details" FontSize="16"/>
     </Grid>
 </Window>

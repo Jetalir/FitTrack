@@ -49,5 +49,10 @@ namespace FitTrack.Model
         {
             return SecurityAnswer;
         }
+
+        public Guid GetUserId()
+        {
+            return UserId;
+        }
     }
 }

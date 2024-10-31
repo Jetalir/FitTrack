@@ -39,7 +39,7 @@ namespace FitTrack.Model
             }
             return null;
         }
-        public User? AssignSignedIn() // Returns Signed in user
+        public User? GetSignedInUser() // Returns Signed in user
         {
             foreach (var user in Users)
             {

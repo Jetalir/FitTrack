@@ -5,6 +5,7 @@ using FitTrack.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,20 +19,40 @@ namespace FitTrack.ViewModel
         //Variables
 
         private WorkoutWindow workoutWindow = Application.Current.Windows.OfType<WorkoutWindow>().First(); // Assigns the running Workoutwindow to the variable.
+        private User activeUser;
+                public User ActiveUser
+                {
+                    get { return activeUser; }
+                    set 
+                    { 
+                        activeUser = value;
+                        OnPropertyChanged(nameof(ActiveUser));
+                        FilterWorkouts();
+                    }
+                }
 
-        private ObservableCollection<Workout> workoutlist;
-
-        public ObservableCollection<Workout> Workoutlist
+        private ObservableCollection<Workout> workoutList;
+        public ObservableCollection<Workout> WorkoutList
         {
-            get { return workoutlist; }
+            get { return workoutList; }
             set 
-            { 
-                workoutlist = value;
+            {
+                workoutList = value;
                 OnPropertyChanged();
+                FilterWorkouts();
             }
         }
+        private ObservableCollection<Workout> filteredWorkoutList;
 
-        private User activeUser;
+        public ObservableCollection<Workout> FilteredWorkoutList
+        {
+            get { return filteredWorkoutList; }
+            set
+            {
+                filteredWorkoutList = value;
+                OnPropertyChanged(nameof(FilteredWorkoutList));
+            }
+        }
 
         private Workout selectedWorkout;
         public Workout SelectedWorkout
@@ -40,19 +61,11 @@ namespace FitTrack.ViewModel
             set
             {
                 selectedWorkout = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedWorkout));
             }
         }
 
-        public User ActiveUser
-        {
-            get { return activeUser; }
-            set 
-            { 
-                activeUser = value;
-                OnPropertyChanged(nameof(ActiveUser));
-            }
-        }
+        
         private bool isPopupOpen;
         public bool IsPopupOpen
         {
@@ -75,14 +88,20 @@ namespace FitTrack.ViewModel
         
         public WorkoutWindowViewModel() // Contructor
         {
+            WorkoutList = new ObservableCollection<Workout>();
+            //WorkoutList.CollectionChanged += FilterWorkouts()
             UserRepository userRepository = new UserRepository();
-            ActiveUser = userRepository.AssignSignedIn(); // Assigns sign in state to user
-            workoutWindow.Profile.Content = ActiveUser.Username;
+            ActiveUser = userRepository.GetSignedInUser(); // Assigns sign in state to user
 
-            Workoutlist = new ObservableCollection<Workout>();
+            if (activeUser != null)
+            {
+                workoutWindow.Profile.Content = ActiveUser.Username;
+            }
+
             WorkoutRepository workoutRepository = new WorkoutRepository();
-            Workoutlist = workoutRepository.GetWorkoutList();
-            
+
+            WorkoutList = workoutRepository.GetWorkoutList() ?? new ObservableCollection<Workout>();
+            FilterWorkouts();
         }
         
         private void AddItem()
@@ -116,6 +135,23 @@ namespace FitTrack.ViewModel
         public bool CanRemove() 
         {
             return selectedWorkout != null && (ActiveUser is AdminUser || ActiveUser.UserId == selectedWorkout.Userid);
+        }
+        
+        public void FilterWorkouts()
+        {
+            if (ActiveUser != null && ActiveUser is AdminUser)
+            {
+                FilteredWorkoutList = new ObservableCollection<Workout>(WorkoutList);
+            }
+            else if (ActiveUser != null && ActiveUser.UserId != null)
+            {
+                FilteredWorkoutList = new ObservableCollection<Workout>(
+                    WorkoutList.Where(workout => workout.Userid == ActiveUser.UserId || workout.Userid == null));
+            }
+            else
+            {
+                FilteredWorkoutList = new ObservableCollection<Workout>();
+            }
         }
     }
 }

@@ -9,7 +9,7 @@
     <Grid>
         
         
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
@@ -36,14 +36,19 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Username:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--Username-->
                         <TextBox Grid.Column="1" Width="auto" Height="25" Text="{Binding UsernameInput}"/>
+                        
                         <TextBlock Grid.Row="1" Text="Password:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--Password-->
                         <TextBox Grid.Row="1" Grid.Column="1" Width="auto" Height="25" Text="{Binding PasswordInput}"/>
+                        
                         <TextBlock Grid.Row="2" Text="Confirm Password:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--ConfirmPassword-->
                         <TextBox Grid.Row="2" Grid.Column="1" Width="auto" Height="25" Text="{Binding ConfirmPasswordInput}"/>
+                        
                         <TextBlock Grid.Row="3" Text="Security Question:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--Security Question-->
                         <ComboBox Grid.Row="3" Grid.Column="1" Width="auto" Height="25" FontSize="17" ItemsSource="{Binding SecurityQuestion}" SelectedItem="{Binding SelectedSecurityQuestion}"/>
+                        
                         <TextBlock Grid.Row="4" Text="Security Answer:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--Security Answer-->
                         <TextBox Grid.Row="4" Grid.Column="1" Width="auto" Height="25" FontSize="17" Text="{Binding SecurityAnswerInput}"/>
+                        
                         <TextBlock Grid.Row="5" Text="Country:" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/> <!--Country-->
                         <ComboBox Grid.Row="5" Grid.Column="1" Width="auto" Height="25" FontSize="15" ItemsSource="{Binding Country}" SelectedItem="{Binding SelectedCountry}"/>
                     </Grid>

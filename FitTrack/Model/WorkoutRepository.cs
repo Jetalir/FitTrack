@@ -13,10 +13,16 @@ namespace FitTrack.Model
 {
     class WorkoutRepository
     {
+        static List<string> Types = new List<string>()
+        {
+            "Cardio", 
+            "Strength"
+        };
+
         static ObservableCollection<Workout> WorkoutList = new ObservableCollection<Workout>()
         {
-            new CardioWorkout ( "Cardio", 400, new TimeSpan(0, 30, 0), DateTime.Now, "Morning run" , null ,20),
-            new StrengthWorkout ("Strength",  400, new TimeSpan(0, 10, 0), DateTime.Now, "Pushups", null, 10 )
+            new CardioWorkout ( Types[0], 400, new TimeSpan(0, 30, 0), DateTime.Now, "Morning run" , null ,20),
+            new StrengthWorkout (Types[1],  400, new TimeSpan(0, 10, 0), DateTime.Now, "Pushups", null, 10 )
         };
 
         public void AddCardioWorkout(string type, int caloriesBurned, TimeSpan duration, DateTime date, string notes, Guid? guid, int distance)
@@ -38,6 +44,10 @@ namespace FitTrack.Model
             return WorkoutList;
         }
 
+        public List<string> GetWorkoutTypes()
+        {
+            return Types;
+        }
 
     }
 }
