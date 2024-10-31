@@ -40,6 +40,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Button Grid.Row="2" Height="50" Width="140" Content="Workout Details" FontSize="16"/>
+        <Button Grid.Row="2" Height="50" Width="140" Content="Workout Details" FontSize="16" Command="{Binding WorkoutDetailsCommand}"/>
     </Grid>
 </Window>

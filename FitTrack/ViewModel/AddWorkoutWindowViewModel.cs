@@ -167,7 +167,6 @@ namespace FitTrack.ViewModel
                 OnPropertyChanged(nameof(TypeInfoInput));
             }
         }
-
         public RelayCommand AddWorkoutCommand => new RelayCommand(_ => AddWorkout());
         //Constructor
         public AddWorkoutWindowViewModel()
@@ -186,15 +185,15 @@ namespace FitTrack.ViewModel
             
             UserRepository userRepository = new UserRepository();
             addWorkoutWindow.AddWorkoutMessage.Visibility = Visibility.Visible;
-            if (SelectedType == null)
+            if (SelectedType == null) // Om Man inte valt någon type
             {
                 SetAddWorkoutMessage("Please select a type");
             }
-            else if (CaloriesBurnedInput <= 0)
+            else if (CaloriesBurnedInput <= 0) // inte angett ett värde som inte är default
             {
                 SetAddWorkoutMessage("Please enter a value above 0 on Calories burned");
             }
-            else if (TypeInfoInput <= 0)
+            else if (TypeInfoInput <= 0) // inte angett ett värde som inte är default
             {
                 SetAddWorkoutMessage($"Please enter a value above 0 on {TypeInfo}");
             }

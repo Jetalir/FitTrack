@@ -79,6 +79,7 @@ namespace FitTrack.ViewModel
         WorkoutRepository workoutRepository = new WorkoutRepository();
 
         // Commands
+        public RelayCommand WorkoutDetailsCommand => new RelayCommand(_ => WorkoutDetails());
         public RelayCommand TogglePopupCommand => new RelayCommand(_ => TogglePopup());
         public RelayCommand UserDetailsCommand => new RelayCommand(_ => UserDetails());
         public RelayCommand SignOutCommand => new RelayCommand(_ => SignOut());
@@ -137,6 +138,15 @@ namespace FitTrack.ViewModel
             return selectedWorkout != null && (ActiveUser is AdminUser || ActiveUser.UserId == selectedWorkout.Userid);
         }
         
+        public void WorkoutDetails()
+        {
+            WorkoutDetailsWindow workoutDetailsWindow = new WorkoutDetailsWindow();
+            WorkoutDetailsWindowViewModel workoutDetailsWindowViewModel = new WorkoutDetailsWindowViewModel();
+            workoutDetailsWindowViewModel.Workout = selectedWorkout;
+            workoutDetailsWindow.Show();
+            workoutWindow.Hide();
+
+        }
         public void FilterWorkouts()
         {
             if (ActiveUser != null && ActiveUser is AdminUser)
