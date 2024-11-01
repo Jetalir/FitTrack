@@ -15,7 +15,7 @@ namespace FitTrack.ViewModel
     {
         //Variables
         private AddWorkoutWindow addWorkoutWindow = Application.Current.Windows.OfType<AddWorkoutWindow>().First(); // Assign the running AddWorkoutWindow to a variable
-        
+        private WorkoutRepository workoutRepository {  get; set; }
         User? ActiveUser { get; set; }
 
         private List<string> typesList;
@@ -44,17 +44,6 @@ namespace FitTrack.ViewModel
             }
         }
 
-        private int caloriesBurnedInput;
-
-        public int CaloriesBurnedInput
-        {
-            get { return caloriesBurnedInput; }
-            set
-            {
-                caloriesBurnedInput = value;
-                OnPropertyChanged();
-            }
-        }
         private string hoursInput = "0";
 
         public string HoursInput
@@ -174,7 +163,7 @@ namespace FitTrack.ViewModel
             UserRepository user = new UserRepository();
             ActiveUser = user.GetSignedInUser();
 
-            WorkoutRepository workoutRepository = new WorkoutRepository();
+            workoutRepository = new WorkoutRepository();
             TypesList = workoutRepository.GetWorkoutTypes();
         }
 
@@ -189,10 +178,6 @@ namespace FitTrack.ViewModel
             {
                 SetAddWorkoutMessage("Please select a type");
             }
-            else if (CaloriesBurnedInput <= 0) // inte angett ett värde som inte är default
-            {
-                SetAddWorkoutMessage("Please enter a value above 0 on Calories burned");
-            }
             else if (TypeInfoInput <= 0) // inte angett ett värde som inte är default
             {
                 SetAddWorkoutMessage($"Please enter a value above 0 on {TypeInfo}");
@@ -202,16 +187,22 @@ namespace FitTrack.ViewModel
                 SelectedTimeSpan = TimeSpan.Zero;
                 SelectedTimeSpan = new TimeSpan(hours, minutes, seconds);
 
-                WorkoutWindowViewModel workoutWindowViewModel = new WorkoutWindowViewModel();
-                if (SelectedType == TypesList[0])
+                Workout strengthWorkout = new StrengthWorkout();
+                Workout cardioWorkout = new CardioWorkout();
+                //Creates a workout depending on which type is selected
+                if (SelectedType == TypesList[0]) 
                 {
-                    workoutWindowViewModel.WorkoutList.Add( new CardioWorkout(SelectedType, CaloriesBurnedInput, SelectedTimeSpan, SelectedDate, NotesInput, ActiveUser.UserId, TypeInfoInput));
+                    workoutRepository.AddCardioWorkout(
+                        SelectedType, SelectedTimeSpan, SelectedDate, NotesInput, ActiveUser.UserId, TypeInfoInput);
                 }
                 else if (SelectedType == TypesList[1])
                 {
-                    workoutWindowViewModel.WorkoutList.Add(new StrengthWorkout(SelectedType, CaloriesBurnedInput, SelectedTimeSpan, SelectedDate, NotesInput, ActiveUser.UserId, TypeInfoInput));
-                }
+                    workoutRepository.AddStrengthWorkout( 
+                        SelectedType, SelectedTimeSpan, SelectedDate, NotesInput, ActiveUser.UserId, TypeInfoInput);
 
+                }
+                WorkoutWindow workoutWindow = new WorkoutWindow();
+                workoutWindow.Show();
                 addWorkoutWindow.Close();
             }
             else

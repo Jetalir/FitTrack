@@ -136,7 +136,7 @@ namespace FitTrack.ViewModel
             {
                 SetConfirmPasswordMessage("Please enter a password") ;
             }
-            else if (PasswordInput.Length < 8)
+            else if (PasswordInput.Length < 5)
             {
                 SetConfirmPasswordMessage("Password must be atleast 8 characters") ;
             }

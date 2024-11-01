@@ -17,7 +17,7 @@
             <Button Content="Add" Command="{Binding AddCommand}" Width="70" Height=" 30" Margin="5"/>
             <Button Content="Remove" Command="{Binding RemoveCommand}" Width="70" Height="30"/>
             <TextBlock Text="FitTrack" Margin="190,0" FontSize="35" HorizontalAlignment="Center"/>
-            <Button x:Name="Profile" Margin="30,0,0,0" Content="" Width="82"  Height="40" FontSize="20" HorizontalAlignment="Right" Background="Transparent" Command="{Binding TogglePopupCommand}"/>
+            <Button x:Name="Profile" Margin="30,0,0,0" Content="{Binding Username}" Width="82"  Height="40" FontSize="20" HorizontalAlignment="Right" Background="Transparent" Command="{Binding TogglePopupCommand}"/>
 
             <Popup x:Name="ProfilePopup" Margin="-5" PlacementTarget="{Binding ElementName=Profile}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsPopupOpen}">
                 <Border Background="White" BorderBrush="Gray" BorderThickness="1" Padding="5">

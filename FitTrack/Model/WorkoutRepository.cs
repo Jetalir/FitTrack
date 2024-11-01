@@ -13,6 +13,8 @@ namespace FitTrack.Model
 {
     class WorkoutRepository
     {
+
+
         static List<string> Types = new List<string>()
         {
             "Cardio", 
@@ -21,17 +23,19 @@ namespace FitTrack.Model
 
         static ObservableCollection<Workout> WorkoutList = new ObservableCollection<Workout>()
         {
-            new CardioWorkout ( Types[0], 400, new TimeSpan(0, 30, 0), DateTime.Now, "Morning run" , null ,20),
-            new StrengthWorkout (Types[1],  400, new TimeSpan(0, 10, 0), DateTime.Now, "Pushups", null, 10 )
+            new CardioWorkout ( Types[0], new TimeSpan(0, 30, 0), DateTime.Now, "Morning run" , null ,20),
+            new StrengthWorkout (Types[1], new TimeSpan(0, 10, 0), DateTime.Now, "Pushups", null, 10 )
         };
 
-        public void AddCardioWorkout(string type, int caloriesBurned, TimeSpan duration, DateTime date, string notes, Guid? guid, int distance)
+        public void AddCardioWorkout(string type, TimeSpan duration, DateTime date, string notes, Guid? guid, int distance)
         {
-            WorkoutList.Add(new CardioWorkout(type, caloriesBurned, duration, date, notes, guid, distance));
+            CardioWorkout cardioWorkout = new CardioWorkout(type, duration, date, notes, guid, distance);
+            WorkoutList.Add(cardioWorkout);
         }
-        public void AddStrengthWorkout(string type, int caloriesBurned, TimeSpan duration, DateTime date, string notes, Guid? guid, int repititions) 
+        public void AddStrengthWorkout(string type, TimeSpan duration, DateTime date, string notes, Guid? guid, int repititions) 
         {
-            WorkoutList.Add(new StrengthWorkout(type, caloriesBurned, duration, date, notes, guid, repititions));
+            StrengthWorkout strengthWorkout = new StrengthWorkout(type, duration, date, notes, guid, repititions);
+            WorkoutList.Add(strengthWorkout);
         }
         public void DeleteWorkout(Workout workout)
         {

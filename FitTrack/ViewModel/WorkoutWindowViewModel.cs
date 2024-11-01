@@ -17,19 +17,29 @@ namespace FitTrack.ViewModel
     internal class WorkoutWindowViewModel : ViewModelBase
     {
         //Variables
-
         private WorkoutWindow workoutWindow = Application.Current.Windows.OfType<WorkoutWindow>().First(); // Assigns the running Workoutwindow to the variable.
+
         private User activeUser;
-                public User ActiveUser
-                {
-                    get { return activeUser; }
-                    set 
-                    { 
-                        activeUser = value;
-                        OnPropertyChanged(nameof(ActiveUser));
-                        FilterWorkouts();
-                    }
-                }
+        public User ActiveUser
+        {
+            get { return activeUser; }
+            set 
+            { 
+                activeUser = value;
+                OnPropertyChanged(nameof(ActiveUser));
+                FilterWorkouts();
+            }
+        }
+        private string username;
+        public string Username
+        {
+            get => username;
+            set
+            {
+                username = value;
+                OnPropertyChanged();
+            }
+        }
 
         private ObservableCollection<Workout> workoutList;
         public ObservableCollection<Workout> WorkoutList
@@ -42,8 +52,8 @@ namespace FitTrack.ViewModel
                 FilterWorkouts();
             }
         }
-        private ObservableCollection<Workout> filteredWorkoutList;
 
+        private ObservableCollection<Workout> filteredWorkoutList;
         public ObservableCollection<Workout> FilteredWorkoutList
         {
             get { return filteredWorkoutList; }
@@ -64,8 +74,19 @@ namespace FitTrack.ViewModel
                 OnPropertyChanged(nameof(SelectedWorkout));
             }
         }
+        private int caloriesBurned;
 
-        
+        public int CaloriesBurned
+        {
+            get { return caloriesBurned; }
+            set 
+            { 
+                caloriesBurned = value; 
+                OnPropertyChanged(nameof(CaloriesBurned));
+            }
+        }
+
+
         private bool isPopupOpen;
         public bool IsPopupOpen
         {
@@ -76,44 +97,45 @@ namespace FitTrack.ViewModel
                 OnPropertyChanged();
             }
         }
-        WorkoutRepository workoutRepository = new WorkoutRepository();
 
         // Commands
         public RelayCommand WorkoutDetailsCommand => new RelayCommand(_ => WorkoutDetails());
         public RelayCommand TogglePopupCommand => new RelayCommand(_ => TogglePopup());
         public RelayCommand UserDetailsCommand => new RelayCommand(_ => UserDetails());
         public RelayCommand SignOutCommand => new RelayCommand(_ => SignOut());
-        public RelayCommand AddCommand => new RelayCommand(_ => AddItem());
+        public RelayCommand AddCommand => new RelayCommand(_ => AddWorkout());
         public RelayCommand RemoveCommand => new RelayCommand(_ => DeleteItem(), canExecute => CanRemove());
 
         
         public WorkoutWindowViewModel() // Contructor
         {
+             
             WorkoutList = new ObservableCollection<Workout>();
-            //WorkoutList.CollectionChanged += FilterWorkouts()
             UserRepository userRepository = new UserRepository();
             ActiveUser = userRepository.GetSignedInUser(); // Assigns sign in state to user
 
             if (activeUser != null)
             {
-                workoutWindow.Profile.Content = ActiveUser.Username;
+                Username = ActiveUser.Username;
             }
-
+            
             WorkoutRepository workoutRepository = new WorkoutRepository();
-
             WorkoutList = workoutRepository.GetWorkoutList() ?? new ObservableCollection<Workout>();
             FilterWorkouts();
         }
         
-        private void AddItem()
+        private void AddWorkout()
         {
             AddWorkoutWindow addWorkoutwindow = new AddWorkoutWindow();
             addWorkoutwindow.Show();
+
+            var window = Application.Current.Windows.OfType<WorkoutWindow>().First();
+            window.Close();
         }
         public void DeleteItem()
         {
             WorkoutRepository workoutRepository = new WorkoutRepository();
-            workoutRepository.DeleteWorkout(selectedWorkout);
+            workoutRepository.DeleteWorkout(SelectedWorkout);
         }
         private void TogglePopup() => IsPopupOpen = !IsPopupOpen; // Toggles popup for User options
 
@@ -129,23 +151,28 @@ namespace FitTrack.ViewModel
             ActiveUser.SignOut();
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-
             workoutWindow.Close();
 
         }
         public bool CanRemove() 
         {
-            return selectedWorkout != null && (ActiveUser is AdminUser || ActiveUser.UserId == selectedWorkout.Userid);
+            return SelectedWorkout != null && (ActiveUser is AdminUser || ActiveUser.UserId == SelectedWorkout.Userid);
         }
         
         public void WorkoutDetails()
         {
-            WorkoutDetailsWindow workoutDetailsWindow = new WorkoutDetailsWindow();
-            WorkoutDetailsWindowViewModel workoutDetailsWindowViewModel = new WorkoutDetailsWindowViewModel();
-            workoutDetailsWindowViewModel.Workout = selectedWorkout;
-            workoutDetailsWindow.Show();
-            workoutWindow.Hide();
+            if (SelectedWorkout != null)
+            {
+                WorkoutDetailsWindowViewModel workoutDetailsWindowViewModel = new WorkoutDetailsWindowViewModel(SelectedWorkout);
 
+                WorkoutDetailsWindow workoutDetailsWindow = new WorkoutDetailsWindow();
+                workoutDetailsWindow.Show();
+                workoutWindow.Close();
+            }
+            else
+            {
+                MessageBox.Show("Select a Workout!");
+            }
         }
         public void FilterWorkouts()
         {

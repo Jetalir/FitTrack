@@ -18,10 +18,13 @@ namespace FitTrack.Model
         public Guid? Userid { get; set; }
 
         //Constructor
-        public Workout(string type, int caloriesBurned, TimeSpan duration, DateTime date, string notes, Guid? guid)
+        protected Workout()
+        {
+            
+        }
+        public Workout(string type, TimeSpan duration, DateTime date, string notes, Guid? guid)
         {
             Type = type;
-            CaloriesBurned = caloriesBurned;
             Duration = duration;
             Date = date;
             Notes = notes;
@@ -30,8 +33,9 @@ namespace FitTrack.Model
 
         //Methods
 
-        public abstract int CalculateCaloriesBurned(); // Calculate amounts of calories burned
+        public abstract int CalculateCaloriesBurned();
 
+        public abstract int TypeInfoInput { get; set; }
 
     }
 }
