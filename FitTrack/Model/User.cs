@@ -10,7 +10,7 @@ namespace FitTrack.Model
 {
     internal class User : Person
     {
-        string Country { get; set; }
+        public string Country { get; set; }
         public bool SignedIn = false;
         public string SecurityQuestion { get; set; }
         string SecurityAnswer { get; set; }

@@ -99,6 +99,7 @@ namespace FitTrack.ViewModel
         }
 
         // Commands
+        public RelayCommand ToggleInfoPopupCommand => new RelayCommand(_ => TogglePopup());
         public RelayCommand WorkoutDetailsCommand => new RelayCommand(_ => WorkoutDetails());
         public RelayCommand TogglePopupCommand => new RelayCommand(_ => TogglePopup());
         public RelayCommand UserDetailsCommand => new RelayCommand(_ => UserDetails());
@@ -163,9 +164,8 @@ namespace FitTrack.ViewModel
         {
             if (SelectedWorkout != null)
             {
-                WorkoutDetailsWindowViewModel workoutDetailsWindowViewModel = new WorkoutDetailsWindowViewModel(SelectedWorkout);
-
                 WorkoutDetailsWindow workoutDetailsWindow = new WorkoutDetailsWindow();
+                WorkoutDetailsWindowViewModel workoutDetailsWindowViewModel = new WorkoutDetailsWindowViewModel(SelectedWorkout);
                 workoutDetailsWindow.Show();
                 workoutWindow.Close();
             }

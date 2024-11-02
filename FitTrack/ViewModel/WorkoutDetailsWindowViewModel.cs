@@ -12,7 +12,7 @@ namespace FitTrack.ViewModel
 {
     internal class WorkoutDetailsWindowViewModel : ViewModelBase
     {
-        
+        WorkoutDetailsWindow workoutDetailsWindow;
 
         private Workout selectedWorkout;
         public Workout SelectedWorkout
@@ -24,8 +24,6 @@ namespace FitTrack.ViewModel
                 OnPropertyChanged();
             }
         }
-
-
 
         private List<string> typesList;
         public List<string> TypesList
@@ -163,14 +161,18 @@ namespace FitTrack.ViewModel
         }
 
         public RelayCommand EditWorkoutCommand => new RelayCommand(_ => EditWorkout());
+        public RelayCommand SaveWorkoutCommand => new RelayCommand(_ => SaveWorkout());
         public WorkoutDetailsWindowViewModel() {}
         public WorkoutDetailsWindowViewModel(Workout workout)
         {
+
+            workoutDetailsWindow = Application.Current.Windows.OfType<WorkoutDetailsWindow>().First();
             SelectedWorkout = workout;
             WorkoutRepository workoutRepository = new WorkoutRepository();
             TypesList = workoutRepository.GetWorkoutTypes();
-
-            TypeInfoInput = SelectedWorkout.TypeInfoInput;
+            
+            //Assigns SelectedWorkout to each binding
+            TypeInfoInput = SelectedWorkout.TypeInfoInput; 
             SelectedType = SelectedWorkout.Type;
             NotesInput = SelectedWorkout.Notes;
             SelectedDate = SelectedWorkout.Date;
@@ -180,14 +182,14 @@ namespace FitTrack.ViewModel
             HoursInput = SelectedWorkout.Duration.Hours.ToString();
         }
 
-        public void EditWorkout()
+        public void SaveWorkout()
         {
             SelectedWorkout.TypeInfoInput = TypeInfoInput;
             SelectedWorkout.Type = SelectedType;
             SelectedWorkout.Notes = NotesInput;
             SelectedWorkout.Date = SelectedDate;
 
-
+            // Converts the Textbox into int to then make a timespan
             int.TryParse(HoursInput, out int hours);
             int.TryParse(MinutesInput, out int minutes);
             int.TryParse(SecondsInput, out int seconds);
@@ -195,11 +197,21 @@ namespace FitTrack.ViewModel
 
             WorkoutWindow workoutWindow = new WorkoutWindow();
             workoutWindow.Show();
-            var window = Application.Current.Windows.OfType<WorkoutDetailsWindow>().First();
-            window.Close();
+
+            workoutDetailsWindow.Close();
 
         }
-        private void UpdateTypeInfo()
+        public void EditWorkout()
+        {
+            workoutDetailsWindow.TypesListBox.IsEnabled = true;
+            workoutDetailsWindow.TypeInfoBox.IsReadOnly = false;
+            workoutDetailsWindow.HoursBox.IsReadOnly = false;
+            workoutDetailsWindow.MinutesBox.IsReadOnly = false;
+            workoutDetailsWindow.SecondsBox.IsReadOnly = false;
+            workoutDetailsWindow.DateBox.IsEnabled = true;
+            workoutDetailsWindow.NotesBox.IsReadOnly = false;
+        }
+        private void UpdateTypeInfo() // Chooses a Typeinfo depending on which type the workouot is
         {
             if (SelectedType == TypesList[0])
             {

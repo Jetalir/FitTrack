@@ -7,20 +7,34 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Label Content="FitTrack" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="50" Margin="0,20"/>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid Width="400">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Label Content="FitTrack" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="50" Margin="0,20"/>
 
-        <StackPanel Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="Username" FontSize="15"/>
-            <TextBox Text="{Binding UsernameInput}" Width="190" Height="28" FontSize="17"/>
-            <TextBlock Text="Password" FontSize="15"/>
-            <TextBox Text="{Binding PasswordInput}" Width="190" Height="28" FontSize="17"/>  <!--Later make it a PasswordBox-->
-            <TextBlock>
-                 <Hyperlink Command="{Binding OpenForgotPasswordCommand}" >Forgot password? </Hyperlink>
-            </TextBlock>
-            <Button Margin="0,10,0,0" Width="70" Height="30" Content="Sign in"  FontSize="15" Command="{Binding SignInCommand}"/>
-            <Button Margin="0,20,0,0" Width="70" Height="30" Content="Register" FontSize="15" Command="{Binding RegisterCommand}"/>
+                <TextBlock Grid.Row="1" Text="Username" FontSize="15"/>
+                <TextBox Grid.Row="1" Text="{Binding UsernameInput}" Width="190" Height="28" FontSize="17"/>
+        
+                <TextBlock Grid.Row="2" Text="Password" FontSize="15"/>
+                <TextBox Grid.Row="2" Text="{Binding PasswordInput}" Width="190" Height="28" FontSize="17"/>  <!--Later make it a PasswordBox-->
+                
+                <TextBlock Grid.Row="3">
+                        <Hyperlink Command="{Binding OpenForgotPasswordCommand}" >Forgot password? </Hyperlink>
+                </TextBlock>
+                <Button Grid.Row="4" Margin="5" Width="70" Height="30" Content="Sign in"  FontSize="15" Command="{Binding SignInCommand}"/>
+                <Button Grid.Row="5" Margin="5" Width="70" Height="30" Content="Register" FontSize="15" Command="{Binding RegisterCommand}"/>
+
+                <TextBlock x:Name="CodeTextBlock" Grid.Row="6" Text="Verification Code" FontSize="17"  VerticalAlignment="Center" Visibility="Collapsed"/>
+                <TextBox x:Name="CodeTextBox" Grid.Row="6" Text="{Binding CodeInput}" Width="130" Height="28" FontSize="17" Visibility="Collapsed"/>
+            </Grid>
         </StackPanel>
-
-
     </Grid>
 </Window>

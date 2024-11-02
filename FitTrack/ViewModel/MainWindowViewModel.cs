@@ -20,31 +20,49 @@ namespace FitTrack.ViewModel
 {
     internal class MainWindowViewModel : ViewModelBase
     {
+
+
         //Variables
-        
+
+        private int code = 0;
+
+        public int Code
+        {
+            get { return code; }
+            set { code = value; }
+        }
+
+
 
         private string usernameInput;
-
         public string UsernameInput
         {
-            get
-            {
-                return usernameInput;
-            }
+            get{ return usernameInput; }
             set
             {
                 usernameInput = value;
+                OnPropertyChanged();
             }
         }
         private string passwordInput;
-
         public string PasswordInput
         {
-            get
-            {
-                return passwordInput;
+            get { return passwordInput; }
+            set
+            { 
+                passwordInput = value;
+                OnPropertyChanged();
             }
-            set { passwordInput = value; }
+        }
+        private int codeInput;
+        public int CodeInput
+        {
+            get { return codeInput; }
+            set
+            {
+                codeInput = value;
+                OnPropertyChanged();
+            }
         }
 
         public RelayCommand OpenForgotPasswordCommand => new RelayCommand(_ => OpenForgotPasswordWindow());
@@ -52,6 +70,10 @@ namespace FitTrack.ViewModel
         public RelayCommand RegisterCommand => new RelayCommand(_ => Register());
 
 
+        public MainWindowViewModel()
+        {
+            
+        }
         private void SignIn() // Method to take the input and check if it matches an registered user
         {
             UserRepository Current = new UserRepository();
@@ -63,14 +85,30 @@ namespace FitTrack.ViewModel
 
                 if (CurrentUser.Username == UsernameInput && CurrentUser.Password == PasswordInput) // When login is Successfull
                 {
-                    MessageBox.Show("You've Logged in!", "Logged in", MessageBoxButton.OK);
-                    CurrentUser.SignIn();
+                    MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().First(); // Assigns the running Workoutwindow to the variable.
 
-                    WorkoutWindow workoutsWindow = new WorkoutWindow(); // Shows Workout window
-                    workoutsWindow.Show();
+                    if (Code == 0)
+                    {
+                        Code = Random.Shared.Next(1000, 10000);
+                        MessageBox.Show($"Your 2fa code is: {Code}");
+                        mainWindow.CodeTextBlock.Visibility = Visibility.Visible;
+                        mainWindow.CodeTextBox.Visibility = Visibility.Visible;   
+                    }
+                    else if (CodeInput == Code)
+                    {
+                        MessageBox.Show("You've Logged in!", "Logged in", MessageBoxButton.OK);
+                        CurrentUser.SignIn();
 
-                    var w = Application.Current.Windows.OfType<MainWindow>().First();
-                    w.Close();
+                        WorkoutWindow workoutsWindow = new WorkoutWindow(); // Shows Workout window
+                        workoutsWindow.Show();
+
+                        var w = Application.Current.Windows.OfType<MainWindow>().First();
+                        w.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Incorrect Code!", "Incorrect Verifcation Code", MessageBoxButton.OK);
+                    }
                 }
                 else
                 {

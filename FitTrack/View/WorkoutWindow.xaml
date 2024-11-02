@@ -16,8 +16,40 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
             <Button Content="Add" Command="{Binding AddCommand}" Width="70" Height=" 30" Margin="5"/>
             <Button Content="Remove" Command="{Binding RemoveCommand}" Width="70" Height="30"/>
-            <TextBlock Text="FitTrack" Margin="190,0" FontSize="35" HorizontalAlignment="Center"/>
-            <Button x:Name="Profile" Margin="30,0,0,0" Content="{Binding Username}" Width="82"  Height="40" FontSize="20" HorizontalAlignment="Right" Background="Transparent" Command="{Binding TogglePopupCommand}"/>
+
+            <Button x:Name="InfoButton" Content="ℹ️ Info" Width="50" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" Command="{Binding TogglePopupCommand}"/>
+
+            <Popup IsOpen="{Binding IsPopupOpen, Mode=TwoWay}" 
+                   PlacementTarget="{Binding ElementName=InfoButton}" 
+                   StaysOpen="False"
+                   AllowsTransparency="True" Placement="Bottom" PopupAnimation="Fade">
+
+                <Border Background="LightYellow" BorderBrush="Gray" BorderThickness="1" CornerRadius="5">
+                    <TextBlock Padding="10" Width="300" TextWrapping="Wrap">
+                        <Run Text="This is FitTrack, a workout app to make your workout easier to plan and organize." />
+                        <LineBreak />
+                        <LineBreak />
+        
+                        <Run Text="Add Button:" FontWeight="Bold" />
+                        <Run Text=" Add a new workout." />
+                        <LineBreak />
+
+                        <Run Text="Remove Button:" FontWeight="Bold" />
+                        <Run Text=" Remove selected workout." />
+                        <LineBreak />
+
+                        <Run Text="Profile Button: " FontWeight="Bold" />
+                        <Run Text="A button that shows your Username, View/change your UserDetails or Signout. " />
+                        <LineBreak />
+        
+                        <Run Text="Workout Details:" FontWeight="Bold" />
+                        <Run Text=" to get a more detailed view of the selected workout." />        
+                    </TextBlock>
+                </Border>
+            </Popup>
+
+            <TextBlock Text="FitTrack" Margin="130,0" FontSize="35" HorizontalAlignment="Center"/>
+            <Button x:Name="Profile" Margin="80,0,0,0" Content="{Binding Username}" Width="82"  Height="40" FontSize="20" HorizontalAlignment="Right" Background="Transparent" Command="{Binding TogglePopupCommand}"/>
 
             <Popup x:Name="ProfilePopup" Margin="-5" PlacementTarget="{Binding ElementName=Profile}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsPopupOpen}">
                 <Border Background="White" BorderBrush="Gray" BorderThickness="1" Padding="5">
